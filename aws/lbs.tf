@@ -11,7 +11,6 @@ resource "aws_lb_listener" "web-80" {
   load_balancer_arn = aws_lb.web.arn
   port              = 80
   protocol          = "TCP"
-
   default_action {
     type             = "forward"
     target_group_arn = aws_lb_target_group.web-80.arn
@@ -21,7 +20,9 @@ resource "aws_lb_listener" "web-80" {
 resource "aws_lb_listener" "web-443" {
   load_balancer_arn = aws_lb.web.arn
   port              = 443
-  protocol          = "TCP"
+  protocol          = "TLS"
+  ssl_policy        = "ELBSecurityPolicy-2016-08"
+  certificate_arn   = aws_acm_certificate_validation.cert_validation.certificate_arn
 
   default_action {
     type             = "forward"
@@ -43,7 +44,7 @@ resource "aws_lb_target_group" "web-80" {
 resource "aws_lb_target_group" "web-443" {
   name     = "${var.environment_name}-web-tg-443"
   port     = 443
-  protocol = "TCP"
+  protocol = "TLS"
   vpc_id   = aws_vpc.vpc.id
 
   health_check {
@@ -134,7 +135,9 @@ resource "aws_lb" "pks-api" {
 resource "aws_lb_listener" "pks-api-9021" {
   load_balancer_arn = aws_lb.pks-api.arn
   port              = 9021
-  protocol          = "TCP"
+  protocol          = "TLS"
+  ssl_policy        = "ELBSecurityPolicy-2016-08"
+  certificate_arn   = aws_acm_certificate_validation.cert_validation.certificate_arn
 
   default_action {
     type             = "forward"
@@ -145,7 +148,7 @@ resource "aws_lb_listener" "pks-api-9021" {
 resource "aws_lb_target_group" "pks-api-9021" {
   name     = "${var.environment_name}-pks-tg-9021"
   port     = 9021
-  protocol = "TCP"
+  protocol = "TLS"
   vpc_id   = aws_vpc.vpc.id
 
   health_check {
@@ -159,7 +162,9 @@ resource "aws_lb_target_group" "pks-api-9021" {
 resource "aws_lb_listener" "pks-api-8443" {
   load_balancer_arn = aws_lb.pks-api.arn
   port              = 8443
-  protocol          = "TCP"
+  protocol          = "TLS"
+  ssl_policy        = "ELBSecurityPolicy-2016-08"
+  certificate_arn   = aws_acm_certificate_validation.cert_validation.certificate_arn
 
   default_action {
     type             = "forward"
@@ -170,6 +175,6 @@ resource "aws_lb_listener" "pks-api-8443" {
 resource "aws_lb_target_group" "pks-api-8443" {
   name     = "${var.environment_name}-pks-tg-8443"
   port     = 8443
-  protocol = "TCP"
+  protocol = "TLS"
   vpc_id   = aws_vpc.vpc.id
 }
