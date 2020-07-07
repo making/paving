@@ -57,25 +57,12 @@ locals {
     nat_security_group_id   = aws_security_group.nat.id
     nat_security_group_name = aws_security_group.nat.name
 
-    ssh_lb_security_group_id   = aws_security_group.ssh-lb.id
-    ssh_lb_security_group_name = aws_security_group.ssh-lb.name
-    ssh_target_group_name      = aws_lb_target_group.ssh.name
 
-    tcp_lb_security_group_id   = aws_security_group.tcp-lb.id
-    tcp_lb_security_group_name = aws_security_group.tcp-lb.name
-    tcp_target_group_names     = aws_lb_target_group.tcp[*].name
 
-    web_lb_security_group_id   = aws_security_group.web-lb.id
-    web_lb_security_group_name = aws_security_group.web-lb.name
-    web_target_group_names     = [aws_lb_target_group.web-80.name, aws_lb_target_group.web-443.name]
 
     mysql_security_group_id   = aws_security_group.mysql.id
     mysql_security_group_name = aws_security_group.mysql.name
 
-    sys_dns_domain  = replace(aws_route53_record.wildcard-sys.name, "*.", "")
-    apps_dns_domain = replace(aws_route53_record.wildcard-apps.name, "*.", "")
-    ssh_dns         = aws_route53_record.ssh.name
-    tcp_dns         = aws_route53_record.tcp.name
 
     pks_master_iam_instance_profile_name = aws_iam_instance_profile.pks-master.name
     pks_worker_iam_instance_profile_name = aws_iam_instance_profile.pks-worker.name
